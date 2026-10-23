@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Train Ticket Fare Estimator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eaf2ff;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 450px;
+            margin: 30px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px #b8c8df;
+        }
+
+        h1 {
+            text-align: center;
+            color: #174ea6;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 11px;
+            margin-top: 7px;
+            box-sizing: border-box;
+            border-radius: 6px;
+            border: 1px solid #aaa;
+            font-size: 15px;
+        }
+
+        button {
+            margin-top: 22px;
+            background: #174ea6;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #103778;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e1f5e7;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚆 Train Fare Estimator</h1>
+
+        <label for="from">From Station</label>
+        <input type="text" id="from" placeholder="Enter starting station">
+
+        <label for="to">To Station</label>
+        <input type="text" id="to" placeholder="Enter destination station">
+
+        <label for="distance">Distance (in km)</label>
+        <input type="number" id="distance" min="1" placeholder="Enter distance">
+
+        <label for="train">Train Type</label>
+        <select id="train">
+            <option value="1">Ordinary / Passenger</option>
+            <option value="1.5">Express</option>
+            <option value="2">Superfast</option>
+        </select>
+
+        <label for="passengers">Number of Passengers</label>
+        <input type="number" id="passengers" min="1" value="1">
+
+        <button onclick="estimateFare()">Estimate Fare</button>
+
+        <div id="result" style="display:none;"></div>
+        <p style="font-size:12px;color:#666;text-align:center;">
+            This is an educational estimate, not an official railway fare.
+        </p>
+    </div>
+
+    <script>
+        function estimateFare() {
+            const from = document.getElementById("from").value.trim();
+            const to = document.getElementById("to").value.trim();
+            const distance = Number(document.getElementById("distance").value);
+            const train = Number(document.getElementById("train").value);
+            const passengers = Number(document.getElementById("passengers").value);
+
+            if (!from || !to || distance <= 0 ||
+                !Number.isFinite(distance) || passengers < 1 ||
+                !Number.isInteger(passengers)) {
+                alert("Please enter valid station names, distance and passenger count.");
+                return;
+            }
+
+            const baseRate = 1.0;
+            const fare = distance * baseRate * train * passengers;
+            const result = document.getElementById("result");
+
+            result.style.display = "block";
+            result.innerHTML =
+                "From: " + from + "<br>" +
+                "To: " + to + "<br>" +
+                "Distance: " + distance + " km<br>" +
+                "Passengers: " + passengers + "<br>" +
+                "Estimated Total Fare: ₹" + fare.toFixed(2);
+        }
+    </script>
+</body>
+</html>
